@@ -1,0 +1,69 @@
+package main
+
+import (
+	"fmt"
+)
+
+// To create new tabel raw sql
+//CREATE TABLE foo (
+//  id SERIAL PRIMARY KEY,
+//  baz INT,
+//  email TEXT UNIQUE NOT NULL
+//  );
+
+// To update tables in sql raw sql
+UPDATE users
+SET fire_name = 'keiht', last_name = 'her'
+WHERE id = 1;
+
+// Update table
+sqlStatement := `
+UPDATE users
+SET firt_name = $2, last_name = $3
+WHERE is = $1;`
+_, err = db.Exec(sqlStatement, 1, "Newfitst", "newlast")
+if err != nil {
+  panic(err)
+}
+
+// Delete table
+sqlStatement := `
+DELETE users
+WHERE id = $1;`
+_, err = do.Exec(sqlStatement, 1)
+if err != nil {
+  panic(err)
+}
+
+// Verify a record
+count, err := res.RowsAffected()
+if err != nil {
+  panic(err)
+}
+fmt.Println(count)
+
+
+// Varifiy all the records
+sqlStatement := `
+UPDATE users
+SET first_name = $2, last_name = $3
+WHERE id = $1
+RETURNING id, email;`
+var email string
+var id int
+err = db.QueryRow(sqlStatement, 6, "newfist", "newlast").Scan(&id, &email)
+if err != nil {
+  panic(err)
+}
+fmt.Println(id, email)
+
+
+func main() {
+
+
+
+
+
+
+
+}
