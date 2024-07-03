@@ -15,11 +15,13 @@ func main() {
 	}
 	defer db.Close()
 
+	// Create a new tabel
+	t
 	// Update tables
 	sqlInsert := `
   INSERT INTO DataSources (Name)
-  VALUES (?)`
-	_, err = db.Exec(sqlInsert, "DS-Test")
+  VALUES (?);`
+	_, err = db.Exec(sqlInsert, "DSeTest")
 	if err != nil {
 		panic(err)
 	}
