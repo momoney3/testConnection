@@ -2,19 +2,23 @@ package main
 
 import (
 	"database/sql"
-
-	"github.com/mattn/so-sqlite3"
 )
 
-
+// NOTE: Creat a function to dispaly the data.
+// func displayData(db)
 func main() {
+	dataPath := "./OMCDataBase.db"
+	db, err := sql.Open("sqlite3", dataPath)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
 
-  db, err := sql.Open(sqlite3, OMCdataSourceName strins)
-  if err != nil {
-    panic(err.Error())
 
-    } 
+
+  rows, err 
 
 
 
+  
 }
