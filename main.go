@@ -3,8 +3,10 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 
 	_ "github.com/mattn/go-sqlite3" // Import the SQLite driver
+	"google.golang.org/protobuf/compiler/protogen"
 )
 
 func main() {
@@ -15,40 +17,44 @@ func main() {
 	}
 	defer db.Close()
 
-	// Alter table
-	sqlAlter := `
-  ALTER TABLE tt
-  ADD COLUMN`
-	_, err = db.Exec(sqlInsert)
-	if err != nil {
-		panic(err)
-	}
-
-	// Retrieve data
-	sqlAlter := `
-  SELECT * FROM DataSources 
-  ADD COLUMN;`
-	_, err = db.Exec(sqlInsert)
-	if err != nil {
-		panic(err)
-	}
-
 	// Insert data in tables
-	sqlInsert := `
-  INSERT INTO DataSources (ID, Name, Agency, DataType)
-  VALUES ($1, $2, $3, $4);`
-	_, err = db.Exec(sqlInsert, 4244, "DS-test-go", "goTest", "smb")
-	if err != nil {
-		panic(err)
-	}
+	//sqlInsert := `
+	//INSERT INTO DataSources (ID, Name, Agency, DataType)
+	//VALUES (?, ?, ?, ?);`
+	//_, err = db.Exec(sqlInsert, 655, "DS-rtest-gov2", "goTest", "smb")
+	//if err != nil {
+	//	panic(err)
+	//}
 
-	// Select
+	// Show data
 	sqlSelect := `
-  SELECT * FROM ConnetionsAndScan WHERE LastTest > 1;`
+  SELECT * FROM DataSources;`
 	_, err = db.Exec(sqlSelect)
 	if err != nil {
 		panic(err)
 	}
+  
+func displayDataSource(db *sql.DB) {
+    rows, err := db.Query("select * from datasources order by name")
+    if err != nil {
+      log.Fatal(err)
+    }
+      defer rows.Close()
+
+      for rows.Next() { // Iterate and fetch the records from result cursor}
+        var ID int
+        var Name, Agency, DataType string
+
+        err := rows.Scan(&ID, &Name, &Agency, &DataType)
+        if err != nil {
+         log.Fatal(err)
+       }
+        log.Println("DataSources: ", Name, " ", Agency, " ", DataType)
+    }
+    // Check for any error encountered during iteration
+    if err := rows.Err(); err != nil {
+      log.Fatal(err)
+    }
 
 	fmt.Println("Insertion successful")
 }
