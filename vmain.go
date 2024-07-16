@@ -5,30 +5,31 @@ import (
 )
 
 // NOTE: Creat a function to dispaly the data.
+// TODO: fix to make sour I am using the right sentix
 
 func displayData(db *sql.DB) ([]dataSourceName, error) {
-	rows, err := db.Query("SELECT * FROM album", "dataSource.db")
+	rows, err := db.Query("SELECT * FROM DataSources ")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
 	// Slice to hold data from returned rows.
-	var albums []Album
+	var nameDS []namesDS
 
 	// Loop through rows, using scan to assign colum data to struct files.
 	for rows.Next() {
-		var alb Album
-		if err := rows.Scan(&alb.ID, &alb.Title, &alb.Artist,
-			&alb.Price); err != nil {
-			return albums, err
+		var nds DataSources
+		if err := rows.Scan(&alb.ID, &alb.Name, &alb.Agency,
+			&alb.DataType); err != nil {
+			return nameDS, err
 		}
-		albums = append(albums, alb)
+		namesDS = append(nameDS, alb)
 	}
 	if err = rows.Err(); err != nil {
-		return albums, err
+		return namesDS, err
 	}
-	return albums, nil
+	return pnamesDS, nil
 }
 
 func main() {
